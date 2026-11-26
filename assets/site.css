@@ -532,3 +532,54 @@ footer .mail{border-bottom:1px solid var(--accent)}
 .contact svg.stroke{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 @media (hover:hover){.contact a:hover{color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:rgba(79,209,181,.08)}}
 @media (max-width:640px){.contact{display:none}.brand{margin-right:auto}}
+
+
+/* ================= mobile / touch layer ================= */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,[role="button"]{touch-action:manipulation}
+/* controls are not text: no selection, no long-press callout (body text and email stay selectable) */
+button,.btn,nav a,.contact a,.chip,.tlrow,.ddbtn,.ddmenu a,.litbar a,.litbar button,.stretch,.back,.toc a,.wikis a,.more{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.lightbox,.ddmenu{overscroll-behavior:contain}
+.lightbox img{max-height:90vh;max-height:90dvh}
+.lightbox{padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+footer{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+/* press feedback on every input type (hover does not exist on touch) */
+nav a,.contact a,.links a,.more,.back,.toc a,.wikis a,.ddmenu a,.stretch{transition:opacity 100ms ease-out}
+nav a:active,.contact a:active,.links a:active,.more:active,.back:active,.toc a:active,.wikis a:active,.ddmenu a:active,.stretch:active{opacity:.6}
+.projband:active .vis{opacity:.92}
+.projband .vis{transition:opacity 100ms ease-out}
+/* finger-sized targets (>= 40px) on touch screens only */
+@media (pointer:coarse){
+  nav a,.ddbtn{padding-block:13px}
+  .brand{padding-block:12px}
+  header .btn{height:40px}
+  .chip{padding:9px 14px;min-height:40px;font-size:14px}
+  .links a,.more{padding-block:10px}
+  .ddmenu a{padding:14px 12px}
+  .litbar button{padding:11px 16px}
+  .toc a,.back{padding-block:8px;display:inline-block}
+  .wikis a{padding-block:16px}
+  .tlrow{height:48px}
+  .tbar{top:13px}
+  .contact a{width:40px;height:40px}
+  .acc summary{padding-block:18px}
+}
+@media (pointer:coarse){
+  nav a{padding-inline:12px;margin-left:0}
+  nav{margin-right:-12px}
+  .ddbtn{padding-inline:12px;margin-left:0}
+  .facts a,.cvmail a,.rb a.pl,footer a,.links .mail{display:inline-block;padding-block:10px}
+  footer .wrap{row-gap:4px}
+}
+/* phone header: name on one line, nav tighter; skill bar stays compact */
+.brand{white-space:nowrap}
+@media (max-width:640px){
+  header .wrap{gap:0;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(4px,env(safe-area-inset-right,0px))}
+  .brand{font-size:15px;margin-right:auto}
+  nav a,.ddbtn{font-size:14px;padding-inline:9px}
+  nav{margin-right:0}
+}
+@media (max-width:420px){.brand{font-size:14px}nav a,.ddbtn{padding-inline:7px;font-size:13.5px}}
+.litbar{flex-wrap:nowrap;white-space:nowrap}
+.litbar>span:nth-child(2){overflow:hidden;text-overflow:ellipsis;min-width:0}
+@media (max-width:520px){.litbar{gap:10px;padding-left:14px}.litbar #litcount{display:none}}
