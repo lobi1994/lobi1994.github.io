@@ -594,3 +594,30 @@ nav a:active,.contact a:active,.links a:active,.more:active,.back:active,.toc a:
   .tlticks span{font-size:11px}
   .tlaxis{margin-top:4px}
 }
+
+/* ---- footer plane button ---- */
+.plane-btn{display:inline-grid;place-items:center;width:30px;height:30px;margin-left:8px;vertical-align:middle;border-radius:8px;border:0;background:none;color:var(--mute);cursor:pointer;box-shadow:0 0 0 1px var(--line) inset;transition:color 150ms ease-out,box-shadow 150ms ease-out,transform 160ms cubic-bezier(.23,1,.32,1);-webkit-user-select:none;user-select:none}
+.plane-btn svg{width:15px;height:15px;fill:currentColor;transform:rotate(90deg)}
+.plane-btn:active{transform:scale(.94)}
+@media (hover:hover){.plane-btn:hover{color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}}
+@media (pointer:coarse){.plane-btn{width:40px;height:40px}}
+
+/* ---- plane game overlay ---- */
+.pg-open,.pg-open body{overflow:hidden;overscroll-behavior:none}
+.pg{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(5,6,8,.88);padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(12px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));touch-action:none;overscroll-behavior:none}
+.pg-panel{position:relative;width:min(100%,960px)}
+.pg-cv{display:block;width:100%;height:min(calc(100vh - 110px),560px);height:min(calc(100dvh - 110px),560px);min-height:260px;border-radius:14px;box-shadow:0 0 0 1px var(--line),0 30px 80px rgba(0,0,0,.6);touch-action:none;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.pg-x{position:absolute;right:0;bottom:-48px;height:38px;padding:0 16px;border:0;border-radius:10px;background:rgba(255,255,255,.1);color:var(--fg);font:inherit;font-size:14px;cursor:pointer;box-shadow:0 0 0 1px var(--line) inset}
+@media (hover:hover){.pg-x:hover{background:rgba(255,255,255,.18)}}
+@media (pointer:coarse){.pg-x{height:44px}}
+
+/* ---- TOUCHDOWN banner (the Fantasy Alert look, in the plane's colours) ---- */
+.td{position:fixed;left:50%;top:max(76px,calc(env(safe-area-inset-top,0px) + 70px));z-index:150;width:min(92vw,560px);text-align:center;padding:22px 20px 20px;border-radius:18px;background:rgba(11,12,14,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 0 0 1px var(--line) inset,0 30px 80px rgba(0,0,0,.6);transform:translate(-50%,-14px) scale(.96);opacity:0;transition:opacity 280ms cubic-bezier(.23,1,.32,1),transform 280ms cubic-bezier(.23,1,.32,1);overflow:hidden;cursor:pointer}
+.td.in{opacity:1;transform:translate(-50%,0) scale(1)}
+.td-h{display:block;font-size:clamp(34px,9vw,56px);font-style:italic;font-weight:800;letter-spacing:.01em;line-height:1;background:linear-gradient(#ffffff,#a9d6ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(79,209,181,.45))}
+.td-n{display:block;margin-top:10px;font-size:clamp(15px,4.4vw,20px);font-weight:800;letter-spacing:.06em;color:var(--accent)}
+.td-s{display:block;margin-top:4px;font-size:14px;color:var(--soft)}
+.td-c{position:absolute;top:-12px;width:7px;height:11px;border-radius:2px;opacity:0;animation:tdfall 1.8s cubic-bezier(.3,.6,.5,1) forwards;pointer-events:none}
+@keyframes tdfall{0%{opacity:1;translate:0 0}100%{opacity:0;translate:var(--dx,0px) 220px}}
+.td-c:nth-child(odd){--dx:24px}.td-c:nth-child(even){--dx:-24px}
+@media (prefers-reduced-motion:reduce){.td{transition:opacity 200ms ease-out;transform:translate(-50%,0)}.td.in{transform:translate(-50%,0)}}

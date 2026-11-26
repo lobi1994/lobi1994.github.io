@@ -123,3 +123,56 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   }
 })();
+
+/* ---- footer plane button: loads the mini game only when someone clicks it ---- */
+(function () {
+  var btn = document.getElementById('plane-btn');
+  if (!btn) return;
+  var src = (document.currentScript && document.currentScript.src) || '';
+  var v = (src.match(/\?v=([a-z0-9]+)/) || [])[1];
+  var loading = false;
+  btn.addEventListener('click', function () {
+    if (window.PlaneGame) { window.PlaneGame.open(btn); return; }
+    if (loading) return; loading = true;
+    var s = document.createElement('script');
+    s.src = 'assets/game.js' + (v ? '?v=' + v : '');
+    s.onload = function () { loading = false; window.PlaneGame.open(btn); };
+    s.onerror = function () { loading = false; };
+    document.head.appendChild(s);
+  });
+})();
+
+/* ---- easter egg: when all six pages have been read to the end, a TOUCHDOWN banner appears once ---- */
+(function () {
+  var PAGES = ['index', 'cv', 'careerway', 'manga-tracker', 'fantasy-alert', '3d-printing'];
+  var SEEN = 'ml-seen', DONE = 'ml-touchdown';
+  var slug = (location.pathname.split('/').pop() || 'index').replace(/\.html$/, '') || 'index';
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function seen() { try { return JSON.parse(get(SEEN) || '[]').filter(function (x) { return PAGES.indexOf(x) > -1; }); } catch (e) { return []; } }
+  function show() {
+    if (document.querySelector('.td')) return;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var el = document.createElement('div'); el.className = 'td'; el.setAttribute('role', 'status');
+    el.innerHTML = '<b class="td-h">TOUCHDOWN</b><span class="td-n">MATTHIAS LOBINGER</span><span class="td-s">You read every page. Thanks for stopping by.</span>';
+    if (!reduce) {
+      var cols = ['#d9402c', '#0f4c9e', '#f4f6fb', '#4fd1b5'];
+      for (var i = 0; i < 34; i++) { var c = document.createElement('i'); c.className = 'td-c'; c.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;background:' + cols[i % 4] + ';animation-delay:' + (Math.random() * 0.5).toFixed(2) + 's;animation-duration:' + (1.3 + Math.random() * 1.1).toFixed(2) + 's;transform:rotate(' + Math.round(Math.random() * 180) + 'deg)'; el.appendChild(c); }
+    }
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('in'); });
+    var close = function () { el.classList.remove('in'); setTimeout(function () { el.remove(); }, 400); };
+    el.addEventListener('click', close); setTimeout(close, 7000);
+  }
+  if (location.hash === '#touchdown') { show(); return; }       // preview link, does not count
+  if (get(DONE)) return;
+  var footer = document.querySelector('footer');
+  if (!footer || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    if (!es.some(function (e) { return e.isIntersecting; })) return;
+    io.disconnect();
+    var s = seen(); if (s.indexOf(slug) < 0) { s.push(slug); set(SEEN, JSON.stringify(s)); }
+    if (s.length >= PAGES.length && !get(DONE)) { set(DONE, '1'); setTimeout(show, 600); }
+  }, { threshold: 0.6 });
+  io.observe(footer);
+})();
