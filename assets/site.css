@@ -583,3 +583,14 @@ nav a:active,.contact a:active,.links a:active,.more:active,.back:active,.toc a:
 .litbar{flex-wrap:nowrap;white-space:nowrap}
 .litbar>span:nth-child(2){overflow:hidden;text-overflow:ellipsis;min-width:0}
 @media (max-width:520px){.litbar{gap:10px;padding-left:14px}.litbar #litcount{display:none}}
+
+/* ---- phone fixes: text before picture on the home banners, no scroll-print effect, calmer timeline axis ---- */
+@media (max-width:900px){
+  .projband .pb .vis{order:2}
+  .projband .pb .txt,.projband .pb>div:not(.vis){order:1}
+  .print-wrap,.nozzle{animation:none!important;clip-path:none!important}
+  .nozzle{display:none!important}
+  .tlticks span:nth-child(even){display:none}
+  .tlticks span{font-size:11px}
+  .tlaxis{margin-top:4px}
+}
